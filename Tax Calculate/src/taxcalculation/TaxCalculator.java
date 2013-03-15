@@ -1,7 +1,11 @@
 package taxcalculation;
 
 import java.util.Scanner;
-
+/**
+ * 
+ * @author ramsharan
+ *
+ */
 public class TaxCalculator {
 	private float income_; // yearly
 	private float allowance_; // yearly
@@ -17,13 +21,17 @@ public class TaxCalculator {
 	private float citAmount_;
 	private float cashInHand_;
 
+	/**
+	 * 
+	 */
 	public void calculate() {
 		if(pf_>10){
 			System.out.println("PF cannot be more than 10 percentage");
 			System.exit(5);
 		}
-		pfAmount_ = income_ * pf_ / 100 * 2;
+		pfAmount_ = income_ * (pf_ / 100) * 2;
 		if(pfAmount_>300000){
+			System.out.println("the pf amount is "+pfAmount_);
 			System.out.println("PF amount cannot be more than 300,000");
 			System.exit(5);
 		}
@@ -42,7 +50,8 @@ public class TaxCalculator {
 			insuranceDeduction=20000;
 		}
 		else insuranceDeduction=insurancePremium_;
-		float taxableAmount = totalIncome - insuranceDeduction - allowance_	- pfAmount_ - citAmount_;
+		float taxableAmount = totalIncome - insuranceDeduction - pfAmount_ - citAmount_;
+		//float taxableAmount = income_-
 		if(taxableAmount<0) taxableAmount=0;
 		if(isMarried_){
 			if(taxableAmount<=200000) tax_=taxableAmount*0.01f;
@@ -57,9 +66,13 @@ public class TaxCalculator {
 		if(isFemale_){
 			tax_=tax_*0.9f; //10% off for female
 		}
-		cashInHand_=totalIncome-insurancePremium_-pfAmount_-citAmount_+allowance_-tax_;
+		cashInHand_=totalIncome-insurancePremium_-pfAmount_-citAmount_ -tax_;
+		
 	}
 
+	/**
+	 * 
+	 */
 	public void takeInput() {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
@@ -79,13 +92,13 @@ public class TaxCalculator {
 				System.out.print("Enter Insurance Premium yearly : ");
 				float insurancePremium = scanner.nextFloat();
 				insurancePremium_ = insurancePremium;
-				System.out.print("Enter 1 if married or 0 if single : ");
+				System.out.print("Enter 1 if married or (0 or other than 1) if single : ");
 				int status = scanner.nextInt();
 				if (status == 1)
 					isMarried_ = true;
 				else
 					isMarried_ = false;
-				System.out.print("Enter 1 if female or 0 if male : ");
+				System.out.print("Enter 1 if female or (0 or other than 1) if male : ");
 				int gender = scanner.nextInt();
 				if (gender == 1)
 					isFemale_ = true;
